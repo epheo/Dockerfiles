@@ -1,17 +1,13 @@
-FROM centos
+FROM ubuntu:14.04
 MAINTAINER Thibaut Lapierre <root@epheo.eu>
 
-RUN yum -y install wget tar git make gnu-tools gcc
-
-RUN wget http://nodejs.org/dist/v0.10.29/node-v0.10.29-linux-x64.tar.gz
-
-RUN tar -xzvf node-v0.10.29-linux-x64.tar.gz
-RUN mv node-v0.10.29-linux-x64/ /opt/node
-RUN PATH=$PATH:/opt/node/bin/
-
-RUN rm /node-v0.10.29-linux-x64.tar.gz
-RUN yum -y install libxml2-devel
-
+RUN apt-get install -y git nodejs npm libxml2-dev nodejs-legacy supervisor
 RUN git clone https://github.com/ajaxorg/cloud9.git
-RUN cd cloud9/
-RUN npm install
+RUN cd cloud9/ && npm install
+
+# Add supervisor conf
+add ./supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+EXPOSE 3131
+
+cmd ["supervisord", "-n"]
