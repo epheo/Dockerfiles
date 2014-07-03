@@ -1,7 +1,7 @@
 FROM ubuntu:14.04
 MAINTAINER Thibaut Lapierre <root@epheo.eu>
 
-RUN apt-get install -y git nodejs npm libxml2-dev nodejs-legacy supervisor
+RUN apt-get -y update && apt-get install -y git nodejs npm libxml2-dev nodejs-legacy supervisor
 RUN git clone https://github.com/ajaxorg/cloud9.git
 RUN cd cloud9/ && npm install
 
